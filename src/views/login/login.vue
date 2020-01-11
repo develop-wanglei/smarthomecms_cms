@@ -23,13 +23,11 @@
       </Card>
 
     </div>
-    <div class="bottom">Copyright © {{time}} <a href="https://www.newtechcollege.com" target="_blank" class="href">上海蔺克科技有限公司</a></div>
+    <div class="bottom">Copyright © 2019- {{time}} <a href="https://www.newtechcollege.com" target="_blank" class="href">上海蔺克科技有限公司</a></div>
   </div>
 </template>
 <script>
-  import {
-    login
-  } from '../../api/index.js'
+  import {login} from '../../api/index.js'
 
   export default {
 
@@ -62,9 +60,7 @@
       }
     },
     created() {
-
-
-      const token = sessionStorage.getItem('hbgvnybtfctrgv')
+      const token = sessionStorage.getItem('token')
       if (token) {
         this.$router.push('/home')
       }
@@ -92,7 +88,7 @@
                 code,
                 data
               } = res
-              if (Number(code) != 0) {
+              if (Number(code) != 200) {
                 this.$Message.error('用户名和密码错误');
                 return
               }

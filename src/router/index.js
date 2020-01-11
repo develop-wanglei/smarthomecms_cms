@@ -7,6 +7,9 @@ import Add from '../views/home/key/add.vue'
 import List from '../views/home/key/list.vue'
 import Detail from '../views/home/key/detail.vue'
 import Index from '../views/home/index_home.vue'
+import Box from '../views/home/box/box.vue'
+import Box_List from '../views/home/box/list.vue'
+import Box_Num from '../views/home/box/num.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -34,6 +37,18 @@ const routes = [
         path:'detail',
         component:Detail,
       }]
+    },{
+      path:'box',
+      component:Box,
+      children:[
+        {
+          path:'list',
+          component:Box_List
+        },{
+          path:'num',
+          component:Box_Num
+        }
+      ]
     }]
   }
 
