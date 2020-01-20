@@ -24,20 +24,28 @@
     margin-right: 20px;
 }
 .logo{
-  width: 130px;
   height: 100%;
   padding-top: 10px;
-  img{
+  display: flex;
+  justify-content: space-between;
+  .logo-a{
+    height: 100%;
+    img{
+      height: 40px;
+      width: auto;
+    }
+  }
+  .titles{
+    color: #ffffff;
+    font-size: 20px;
     width: 100%;
-    height: 40px;
-    // border: 1px red solid;
+    text-align: center;
+  }
+  .logout{
+    margin-top: 10px;
   }
 }
-.titles{
-     color: red;
-     margin-left: 500px;
-     border: 1px solid red;
-}
+
 .Sider{
   height: 100%;
   // border: 1px solid red;
@@ -63,8 +71,9 @@
     <Layout class='Layout_box'>
       <Header>
        <div class="logo">
-          <a href="https://www.newtechcollege.com" target="_blank"> <img src="../../../public/img/logo/logo.jpg"></a>
+          <a class="logo-a" href="https://www.newtechcollege.com" target="_blank"> <img src="../../../public/img/logo/logo.jpg"></a>
           <div class="titles">AndroidThings实验箱秘钥管理系统</div>
+           <Button @click='logout' class="logout" type="default" ghost>退出</Button>
         </div>
       </Header>
       <Layout>
@@ -82,26 +91,28 @@
                 秘钥管理
               </template>
               <MenuItem name="2-1">
-              <Icon type="md-add-circle" />
-              <router-link to="/home/key/add">添加秘钥</router-link>
+              <router-link to="/home/key/add">
+                <Icon type="md-add-circle" />添加秘钥</router-link>
               </MenuItem>
               <MenuItem name="2-2">
-              <Icon type="md-book" />
-              <router-link to="/home/key/list">查看秘钥</router-link>
+              <router-link to="/home/key/list">
+                <Icon type="md-book" />查看秘钥</router-link>
               </MenuItem>
             </Submenu>
             <Submenu name="3">
               <template slot="title">
-                <Icon type="md-briefcase" />
-                实验箱管理
+                <Icon type="md-school" />
+                学校管理
               </template>
               <MenuItem name="3-1">
-              <Icon type="ios-battery-charging" />
-              <router-link to="/home/box/list">实验箱状态</router-link>
+              <router-link to="/home/school/list">
+                <Icon type="md-eye" />查看学校
+              </router-link>
               </MenuItem>
               <MenuItem name="3-2">
-              <Icon type="md-calculator" />
-              <router-link to="/home/box/num">实验箱个数</router-link>
+              <router-link to="/home/school/num">
+                <Icon type="md-calculator" />学校实验箱
+              </router-link>
               </MenuItem>
             </Submenu>
           </Menu>
@@ -121,6 +132,7 @@
 
 </template>
 <script>
+import {validToken,delToken} from '../../api/index.js'
   export default {
     data() {
       return {
@@ -130,14 +142,39 @@
     created() {
       this.getYear();
       const token = sessionStorage.getItem("token")
-      if (!token) {
+      if(!token){
         this.$router.push('/login')
+        return
       }
+      let data = {
+        token
+      }
+      validToken(data).then(res =>{
+        if(Number(res.code) != 200){
+          sessionStorage.removeItem('token')
+          this.$router.push('/login')
+        }
+      })
+
     },
     methods: {
       getYear() {
         var getTime = new Date()
         this.time = getTime.getFullYear()
+      },
+      logout(){
+        const token=sessionStorage.getItem("token")
+        sessionStorage.removeItem('token')
+        let data = {
+          token
+        }
+        delToken(data).then(res =>{
+            if(Number(res.code == 200)){
+              this.$router.push('/login')
+              return
+            }
+            this.$Message.warning('请重试！')
+        })
       }
     }
   }

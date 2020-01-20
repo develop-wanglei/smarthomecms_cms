@@ -7,12 +7,19 @@ import Add from '../views/home/key/add.vue'
 import List from '../views/home/key/list.vue'
 import Detail from '../views/home/key/detail.vue'
 import Index from '../views/home/index_home.vue'
-import Box from '../views/home/box/box.vue'
-import Box_List from '../views/home/box/list.vue'
-import Box_Num from '../views/home/box/num.vue'
+import School from '../views/home/school/school.vue'
+import School_List from '../views/home/school/list.vue'
+import School_Num from '../views/home/school/num.vue'
+import Box from '../views/home/school/box.vue'
+import Add_school from '../views/home/school/add.vue'
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path:"/",   // path 设置为 “/” ，默认显示该页面
+    component:Login,
+    name:"login"
+  },
   {
     path:'/login',
     component:Login
@@ -38,15 +45,23 @@ const routes = [
         component:Detail,
       }]
     },{
-      path:'box',
-      component:Box,
+      path:'school',
+      component:School,
       children:[
         {
           path:'list',
-          component:Box_List
+          component:School_List
         },{
           path:'num',
-          component:Box_Num
+          component:School_Num
+        },
+        {
+          path:'box',
+          component:Box
+        },
+        {
+          path:'add',
+          component:Add_school
         }
       ]
     }]

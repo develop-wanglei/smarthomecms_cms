@@ -22,9 +22,15 @@ export  const _http=(url = '', data = {}, type = 'GET') =>{
             promise = axios.get(url)
         } else {
             data = Qs.stringify(data);
-            console.log(data)
+            // console.log(data)
+
+            const token = sessionStorage.getItem('token')
+            // if(url == "/user/login"){
+            //   token = ""
+            // }
             promise = axios.post(url, data,{headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
+              'Content-Type': 'application/x-www-form-urlencoded',
+              "header":token
             }})
         }
         promise.then(response => {
